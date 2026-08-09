@@ -1,31 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Trash2, Send, X, Mail, Phone, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { contactsApi } from '../../api/contacts.api';
 
-interface AdminContactsProps {
-  contacts: any[];
-  reload: () => void;
-}
-
-export default function AdminContacts({ contacts, reload }: AdminContactsProps) {
+export default function AdminContacts() {
+  const [contacts, setContacts] = useState<any[]>([]);
   const [filter, setFilter] = useState<'all' | 'unread'>('all');
   const [replyingId, setReplyingId] = useState<number | null>(null);
   const [replyText, setReplyText] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
-  const filtered = contacts.filter((ct) => (filter === 'unread' ? !ct.isRead : true));
+  const reload = () => {
+    contactsApi.getAll().then(setContacts).catch(() => setContacts([]));
+  };
 
- const openReply = async (id: number, existing?: string) => {
-  setReplyingId(id);
-  setReplyText(existing || '');
-  try {
-    await contactsApi.getOne(id); 
+  useEffect(() => {
     reload();
-  } catch {
-  }
-};
+  }, []);
+
+  const filtered = contacts.filter((ct) => (filter === 'unread' ? !ct.isRead : true));
+const openReply = (id: number, existing?: string) => {
+    setReplyingId(id);
+    setReplyText(existing || '');
+  };
 
   const closeReply = () => {
     setReplyingId(null);
