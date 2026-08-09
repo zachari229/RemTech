@@ -7,4 +7,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  preview: {
+    host: true,
+    allowedHosts: ['positive-insight-production-9ec3.up.railway.app'],
+  },
 })
