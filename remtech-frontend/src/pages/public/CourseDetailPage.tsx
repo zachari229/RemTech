@@ -27,12 +27,12 @@ const LEVEL_LABELS: Record<string, string> = {
   INTERMEDIAIRE: 'Intermédiaire',
   AVANCE: 'Avancé',
 };
-
+{/* ──  
 const levelColors: Record<string, string> = {
   DEBUTANT: '#10B981',
   INTERMEDIAIRE: '#F97316',
   AVANCE: '#EF4444',
-};
+}; ── */}
 
 export default function CourseDetailPage() {
   const { slug } = useParams<{ slug: string }>();

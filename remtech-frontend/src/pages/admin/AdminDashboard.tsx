@@ -30,7 +30,7 @@ export default function AdminDashboard() {
   const [users, setUsers] = useState<any[]>([]);
   const [orders, setOrders] = useState<any[]>([]);
   const [contacts, setContacts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [reviews, setReviews] = useState<any[]>([]);
 
   const loadData = () => {
