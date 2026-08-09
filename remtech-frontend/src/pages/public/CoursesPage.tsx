@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, Clock, BarChart3, ChevronRight, Star, Users, SlidersHorizontal } from 'lucide-react';
+import { Search, Clock, BarChart3, ChevronRight, SlidersHorizontal } from 'lucide-react';
 import { coursesApi } from '../../api/courses.api';
 import { categoriesApi } from '../../api/categories.api';
 import type { Course } from '../../types';

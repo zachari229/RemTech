@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BookOpen, Users, ShoppingCart, MessageSquare, BarChart3, LogOut, Star, User } from 'lucide-react';
+import { BookOpen, Users, ShoppingCart, MessageSquare, BarChart3, LogOut, Star } from 'lucide-react';
 
 const navItems = [
   { id: 'overview', icon: BarChart3, label: 'Tableau de bord' },
