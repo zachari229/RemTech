@@ -1,0 +1,256 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum CourseLevel {
+  DEBUTANT
+  INTERMEDIAIRE
+  AVANCE
+}
+
+enum CourseStatus {
+  BROUILLON
+  PUBLIE
+  ARCHIVE
+}
+
+enum OrderStatus {
+  EN_ATTENTE
+  PAYE
+  ECHOUE
+  REMBOURSE
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  PDF
+}
+
+model User {
+  id               Int            @id @default(autoincrement())
+  email            String         @unique
+  password         String
+  firstName        String
+  lastName         String
+  phone            String?
+  avatar           String?
+  role             Role           @default(STUDENT)
+  isActive         Boolean        @default(true)
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  enrollments      Enrollment[]
+  orders           Order[]
+  reviews          Review[]
+  notifications    Notification[]
+
+  @@map("users")
+}
+
+model Admin {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  firstName String
+  lastName  String
+  phone     String?
+  avatar    String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  slug      String   @unique
+  icon      String?
+  image     String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  courses   Course[]
+
+  @@map("categories")
+}
+
+model Course {
+  id               Int           @id @default(autoincrement())
+  title            String
+  slug             String        @unique
+  shortDescription String        @db.Text
+  fullDescription  String        @db.LongText
+  price            Decimal       @db.Decimal(10, 2)
+  level            CourseLevel
+  duration         String
+  objectives       Json
+  prerequisites    Json
+  modules          Module[]
+  status           CourseStatus  @default(BROUILLON)
+  metaTitle        String?
+  metaDescription  String?
+  categoryId       Int
+  chariowProductId String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  category         Category      @relation(fields: [categoryId], references: [id])
+  media            CourseMedia[]
+  enrollments      Enrollment[]
+  orders           Order[]
+  reviews          Review[]
+
+  @@map("courses")
+}
+
+model Module {
+  id        Int      @id @default(autoincrement())
+  courseId  Int
+  title     String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons   Lesson[]
+
+  @@map("modules")
+}
+
+model Lesson {
+  id        Int       @id @default(autoincrement())
+  moduleId  Int
+  title     String
+  type      MediaType
+  url       String
+  publicId  String
+  duration  String?
+  order     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  module    Module    @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@map("lessons")
+}
+
+model CourseMedia {
+  id        Int       @id @default(autoincrement())
+  courseId  Int
+  url       String
+  publicId  String
+  type      MediaType
+  isPrimary Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  course    Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@map("course_media")
+}
+
+model Enrollment {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  courseId   Int
+  enrolledAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  course     Course   @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
+  @@map("enrollments")
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  userId     Int
+  courseId   Int
+  amount     Decimal     @db.Decimal(10, 2)
+  status     OrderStatus @default(EN_ATTENTE)
+  paymentRef String?     @unique
+  chariowRef String?
+   checkoutUrl String?
+  invoiceUrl String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  user       User        @relation(fields: [userId], references: [id])
+  course     Course      @relation(fields: [courseId], references: [id])
+  payment    Payment?
+
+  @@map("orders")
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  orderId   Int      @unique
+  amount    Decimal  @db.Decimal(10, 2)
+  currency  String   @default("XOF")
+  provider  String   @default("chariow")
+  reference String   @unique
+  paidAt    DateTime @default(now())
+  order     Order    @relation(fields: [orderId], references: [id])
+
+  @@map("payments")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  courseId  Int
+  rating    Int
+  comment   String   @db.Text
+  isVisible Boolean  @default(false)
+  reply     String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@unique([userId, courseId])
+  @@map("reviews")
+}
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  reply     String?  @db.Text
+  createdAt DateTime @default(now())
+
+  @@map("contacts")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+model Setting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
