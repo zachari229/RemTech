@@ -1,23 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Star, CheckCircle2, Trash2, MessageSquare, Send, X } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { reviewsApi } from '../../api/reviews.api';
 
-export default function AdminReviews() {
-  const [reviews, setReviews] = useState<any[]>([]);
+interface AdminReviewsProps {
+  reviews: any[];
+  reload: () => void;
+}
+
+export default function AdminReviews({ reviews, reload }: AdminReviewsProps) {
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved'>('all');
   const [replyingId, setReplyingId] = useState<number | null>(null);
   const [replyText, setReplyText] = useState('');
   const [submitting, setSubmitting] = useState(false);
-
-  const reload = () => {
-    reviewsApi.getAll().then(setReviews).catch(() => setReviews([]));
-  };
-
-  useEffect(() => {
-    reload();
-  }, []);
 
   const filtered = reviews.filter((r) => {
     if (filter === 'pending') return !r.isVisible;

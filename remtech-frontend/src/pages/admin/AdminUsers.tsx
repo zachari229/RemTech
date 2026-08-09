@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react';
 import { Users } from 'lucide-react';
-import { usersApi } from '../../api/users.api';
 
-export default function AdminUsers() {
-  const [users, setUsers] = useState<any[]>([]);
+interface AdminUsersProps {
+  users: any[];
+}
 
-  useEffect(() => {
-    usersApi.getAll().then(setUsers).catch(() => setUsers([]));
-  }, []);
-
+export default function AdminUsers({ users }: AdminUsersProps) {
   return (
     <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>

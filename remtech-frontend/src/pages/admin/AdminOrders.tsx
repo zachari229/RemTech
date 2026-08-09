@@ -1,14 +1,10 @@
-import { useState, useEffect } from 'react';
 import { ShoppingCart } from 'lucide-react';
-import { ordersApi } from '../../api/orders.api';
 
-export default function AdminOrders() {
-  const [orders, setOrders] = useState<any[]>([]);
+interface AdminOrdersProps {
+  orders: any[];
+}
 
-  useEffect(() => {
-    ordersApi.getAll().then(setOrders).catch(() => setOrders([]));
-  }, []);
-
+export default function AdminOrders({ orders }: AdminOrdersProps) {
   return (
     <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #E2E8F0', overflow: 'hidden' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse' }}>

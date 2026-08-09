@@ -23,12 +23,6 @@ import StudentEnrollments from './pages/student/StudentEnrollments';
 
 // Pages admin
 import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminCourses from './pages/admin/AdminCourses';
-import AdminCategories from './pages/admin/AdminCategories';
-import AdminUsers from './pages/admin/AdminUsers';
-import AdminOrders from './pages/admin/AdminOrders';
-import AdminReviews from './pages/admin/AdminReviews';
-import AdminContacts from './pages/admin/AdminContacts';
 import OAuthCallbackPage from './pages/auth/OAuthCallbackPage';
 
 export default function App() {
@@ -80,36 +74,36 @@ export default function App() {
         } />
         <Route path="/admin/courses" element={
           <ProtectedRoute role="ADMIN">
-            <AdminCourses />
+            <AdminDashboard />
           </ProtectedRoute>
         } />
         <Route path="/admin/categories" element={
           <ProtectedRoute role="ADMIN">
-            <AdminCategories />
+            <AdminDashboard />
           </ProtectedRoute>
         } />
         <Route path="/admin/users" element={
           <ProtectedRoute role="ADMIN">
-            <AdminUsers />
+            <AdminDashboard />
           </ProtectedRoute>
         } />
         <Route path="/admin/orders" element={
           <ProtectedRoute role="ADMIN">
-            <AdminOrders />
+            <AdminDashboard />
           </ProtectedRoute>
         } />
         <Route path="/admin/reviews" element={
           <ProtectedRoute role="ADMIN">
-            <AdminReviews />
+            <AdminDashboard />
           </ProtectedRoute>
         } />
         <Route path="/admin/contacts" element={
           <ProtectedRoute role="ADMIN">
-            <AdminContacts />
+            <AdminDashboard />
           </ProtectedRoute>
         } />
         <Route path="/oauth-callback" element={<OAuthCallbackPage />} />
-        
+
       </Routes>
     </BrowserRouter>
   );
