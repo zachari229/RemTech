@@ -35,7 +35,7 @@ export default function ContactPage() {
     borderRadius: 10,
     border: '1.5px solid #E2E8F0',
     fontSize: 14,
-    color: '#0A1628',
+    color: '#0376F7',
     background: '#fff',
     outline: 'none',
     boxSizing: 'border-box' as const,
@@ -52,13 +52,13 @@ export default function ContactPage() {
   return (
     <div style={{ backgroundColor: '#F6F8FC', minHeight: '100vh', paddingTop: 0 }}>
       {/* Header */}
-      <div style={{ background: '#0A1628', padding: '200px 5% 80px' }}>
+      <div style={{ background: '#0376F7', padding: 'clamp(120px, 30vw, 200px) 5% clamp(48px, 8vw, 80px)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'Manrope', sans-serif",
               fontSize: 'clamp(2rem, 5vw, 3.5rem)',
               fontWeight: 700,
               color: '#fff',
@@ -80,7 +80,7 @@ export default function ContactPage() {
 
       {/* Contenu */}
       <div style={{ maxWidth: 1100, margin: '-40px auto 0', padding: '0 5% 80px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 28, alignItems: 'start' }}>
+        <div className="contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 28, alignItems: 'start' }}>
 
           {/* Infos contact */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -131,7 +131,7 @@ export default function ContactPage() {
                     width: 44,
                     height: 44,
                     borderRadius: 12,
-                    background: '#0A1628',
+                    background: '#0376F7',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -144,7 +144,7 @@ export default function ContactPage() {
                   <p style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 }}>
                     {item.label}
                   </p>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#0A1628', marginBottom: 2 }}>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: '#0376F7', marginBottom: 2 }}>
                     {item.value}
                   </p>
                   <p style={{ fontSize: 12, color: '#94A3B8' }}>{item.sub}</p>
@@ -181,7 +181,7 @@ export default function ContactPage() {
                 <MessageSquare size={18} color="#fff" />
               </div>
               <div>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, fontWeight: 700, color: '#0A1628', margin: 0 }}>
+                <h2 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 22, fontWeight: 700, color: '#0376F7', margin: 0 }}>
                   Envoyer un message
                 </h2>
                 <p style={{ fontSize: 12, color: '#94A3B8', margin: 0 }}>Tous les champs sont requis</p>
@@ -189,9 +189,9 @@ export default function ContactPage() {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+              <div className="contact-form-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, color: '#0A1628', display: 'block', marginBottom: 6 }}>
+                  <label style={{ fontSize: 13, fontWeight: 600, color: '#0376F7', display: 'block', marginBottom: 6 }}>
                     Nom complet
                   </label>
                   <input
@@ -203,7 +203,7 @@ export default function ContactPage() {
                   {errors.name && <p style={errorStyle}>{errors.name.message}</p>}
                 </div>
                 <div>
-                  <label style={{ fontSize: 13, fontWeight: 600, color: '#0A1628', display: 'block', marginBottom: 6 }}>
+                  <label style={{ fontSize: 13, fontWeight: 600, color: '#0376F7', display: 'block', marginBottom: 6 }}>
                     Adresse email
                   </label>
                   <input
@@ -220,7 +220,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label style={{ fontSize: 13, fontWeight: 600, color: '#0A1628', display: 'block', marginBottom: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 600, color: '#0376F7', display: 'block', marginBottom: 6 }}>
                   Sujet
                 </label>
                 <input
@@ -233,7 +233,7 @@ export default function ContactPage() {
               </div>
 
               <div>
-                <label style={{ fontSize: 13, fontWeight: 600, color: '#0A1628', display: 'block', marginBottom: 6 }}>
+                <label style={{ fontSize: 13, fontWeight: 600, color: '#0376F7', display: 'block', marginBottom: 6 }}>
                   Message
                 </label>
                 <textarea
@@ -276,6 +276,7 @@ export default function ContactPage() {
       <style>{`
         @media (max-width: 768px) {
           .contact-grid { grid-template-columns: 1fr !important; }
+          .contact-form-row { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </div>

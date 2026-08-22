@@ -35,4 +35,4 @@ export class CloudinaryService {
   async deleteFile(publicId: string, resourceType: 'video' | 'image' | 'raw') {
     return cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
   }
-}
+} 

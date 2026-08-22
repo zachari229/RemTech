@@ -3,7 +3,7 @@ import { Zap } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#0A1628', padding: '60px 5% 32px' }}>
+    <footer style={{ background: '#000000', padding: '60px 5% 32px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <div
           className="footer-grid"
@@ -87,10 +87,10 @@ export default function Footer() {
               <h4
                 style={{
                   color: '#fff',
-                  fontSize: 24,
+                  fontSize: 13,
                   fontWeight: 700,
                   marginBottom: 16,
-                  letterSpacing: 0.5,
+                  letterSpacing: 1,
                   textTransform: 'uppercase',
                   fontFamily: 'Inter, sans-serif',
                 }}

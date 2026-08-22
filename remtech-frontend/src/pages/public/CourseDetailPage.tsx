@@ -27,12 +27,6 @@ const LEVEL_LABELS: Record<string, string> = {
   INTERMEDIAIRE: 'Intermédiaire',
   AVANCE: 'Avancé',
 };
-{/* ──  
-const levelColors: Record<string, string> = {
-  DEBUTANT: '#10B981',
-  INTERMEDIAIRE: '#F97316',
-  AVANCE: '#EF4444',
-}; ── */}
 
 export default function CourseDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -40,14 +34,14 @@ export default function CourseDetailPage() {
   const { isAuthenticated } = useAuthStore();
 
   const [course, setCourse] = useState<Course | null>(null);
-const [loading, setLoading] = useState(true);
-const [notFound, setNotFound] = useState(false);
-const [openModule, setOpenModule] = useState<number | null>(0);
-const [isBuying, setIsBuying] = useState(false);
-const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-const [countryCode, setCountryCode] = useState('BJ');
-const [phoneNumber, setPhoneNumber] = useState('');
-const [phoneError, setPhoneError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+  const [openModule, setOpenModule] = useState<number | null>(0);
+  const [isBuying, setIsBuying] = useState(false);
+  const [showPurchaseModal, setShowPurchaseModal] = useState(false);
+  const [countryCode, setCountryCode] = useState('BJ');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneError, setPhoneError] = useState('');
   useEffect(() => {
     if (!slug) return;
     setLoading(true);
@@ -60,57 +54,57 @@ const [phoneError, setPhoneError] = useState('');
       .finally(() => setLoading(false));
   }, [slug]);
 
-const COUNTRY_OPTIONS = [
-  { code: 'BJ', label: '🇧🇯 Bénin (+229)' },
-  { code: 'CI', label: "🇨🇮 Côte d'Ivoire (+225)" },
-  { code: 'SN', label: '🇸🇳 Sénégal (+221)' },
-  { code: 'TG', label: '🇹🇬 Togo (+228)' },
-  { code: 'BF', label: '🇧🇫 Burkina Faso (+226)' },
-  { code: 'ML', label: '🇲🇱 Mali (+223)' },
-  { code: 'NE', label: '🇳🇪 Niger (+227)' },
-];
+  const COUNTRY_OPTIONS = [
+    { code: 'BJ', label: '🇧🇯 Bénin (+229)' },
+    { code: 'CI', label: "🇨🇮 Côte d'Ivoire (+225)" },
+    { code: 'SN', label: '🇸🇳 Sénégal (+221)' },
+    { code: 'TG', label: '🇹🇬 Togo (+228)' },
+    { code: 'BF', label: '🇧🇫 Burkina Faso (+226)' },
+    { code: 'ML', label: '🇲🇱 Mali (+223)' },
+    { code: 'NE', label: '🇳🇪 Niger (+227)' },
+  ];
 
-const handleBuy = () => {
-  if (!isAuthenticated) {
-    toast.error('Connectez-vous pour acheter cette formation');
-    navigate('/login');
-    return;
-  }
-  setShowPurchaseModal(true);
-};
-
-const handleConfirmPurchase = async () => {
-  if (!course) return;
-
-  const cleanedPhone = phoneNumber.trim().replace(/\s+/g, '');
-  if (!/^[0-9]{6,12}$/.test(cleanedPhone)) {
-    setPhoneError('Numéro de téléphone invalide');
-    return;
-  }
-  setPhoneError('');
-  setIsBuying(true);
-
-  try {
-    const result = await ordersApi.create({
-      courseId: course.id,
-      phoneNumber: cleanedPhone,
-      countryCode,
-    });
-
-    if (result.paymentUrl) {
-      window.location.href = result.paymentUrl;
-    } else {
-      toast.success('Commande créée avec succès');
-      setShowPurchaseModal(false);
+  const handleBuy = () => {
+    if (!isAuthenticated) {
+      toast.error('Connectez-vous pour acheter cette formation');
+      navigate('/login');
+      return;
     }
-  } catch (err: any) {
-    const message =
-      err?.response?.data?.message || 'Erreur lors de la création de la commande';
-    toast.error(message);
-  } finally {
-    setIsBuying(false);
-  }
-};
+    setShowPurchaseModal(true);
+  };
+
+  const handleConfirmPurchase = async () => {
+    if (!course) return;
+
+    const cleanedPhone = phoneNumber.trim().replace(/\s+/g, '');
+    if (!/^[0-9]{6,12}$/.test(cleanedPhone)) {
+      setPhoneError('Numéro de téléphone invalide');
+      return;
+    }
+    setPhoneError('');
+    setIsBuying(true);
+
+    try {
+      const result = await ordersApi.create({
+        courseId: course.id,
+        phoneNumber: cleanedPhone,
+        countryCode,
+      });
+
+      if (result.paymentUrl) {
+        window.location.href = result.paymentUrl;
+      } else {
+        toast.success('Commande créée avec succès');
+        setShowPurchaseModal(false);
+      }
+    } catch (err: any) {
+      const message =
+        err?.response?.data?.message || 'Erreur lors de la création de la commande';
+      toast.error(message);
+    } finally {
+      setIsBuying(false);
+    }
+  };
 
   // ── États de chargement / erreur ──
   if (loading) {
@@ -126,7 +120,7 @@ const handleConfirmPurchase = async () => {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '0 5%' }}>
         <div>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 36, fontWeight: 700, color: '#0A1628', marginBottom: 12 }}>
+          <h1 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(1.75rem, 4vw, 2.25rem)', fontWeight: 700, color: '#0376F7', marginBottom: 12 }}>
             Formation introuvable
           </h1>
           <p style={{ color: '#64748B', fontSize: 15, marginBottom: 28 }}>
@@ -153,10 +147,13 @@ const handleConfirmPurchase = async () => {
           .detail-grid { grid-template-columns: 1fr !important; }
           .sidebar-card { position: static !important; margin-top: 32px; }
         }
+        @media (max-width: 520px) {
+          .objectives-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
 
       {/* ── Header ── */}
-      <div style={{ background: 'linear-gradient(135deg, #0A1628 0%, #1E3A5F 100%)', padding: '110px 5% 50px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0376F7 0%, #0257C4 100%)', padding: '110px 5% 50px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           {/* Fil d'ariane */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 20, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
@@ -180,7 +177,7 @@ const handleConfirmPurchase = async () => {
             )}
             <h1
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: "'Manrope', sans-serif",
                 fontSize: 'clamp(28px, 4vw, 44px)',
                 fontWeight: 700,
                 color: '#fff',
@@ -237,7 +234,7 @@ const handleConfirmPurchase = async () => {
 
             {/* Description complète */}
             <section style={{ marginBottom: 44 }}>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 700, color: '#0A1628', marginBottom: 16 }}>
+              <h2 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(1.3rem, 2.5vw, 1.625rem)', fontWeight: 700, color: '#0376F7', marginBottom: 16 }}>
                 Description
               </h2>
               <p style={{ color: '#475569', fontSize: 15, lineHeight: 1.8, whiteSpace: 'pre-line' }}>
@@ -248,10 +245,10 @@ const handleConfirmPurchase = async () => {
             {/* Objectifs */}
             {course.objectives?.length > 0 && (
               <section style={{ marginBottom: 44 }}>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 700, color: '#0A1628', marginBottom: 20 }}>
+                <h2 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(1.3rem, 2.5vw, 1.625rem)', fontWeight: 700, color: '#0376F7', marginBottom: 20 }}>
                   Ce que vous allez apprendre
                 </h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+                <div className="objectives-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                   {course.objectives.map((obj, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
                       <CheckCircle2 size={18} color="#10B981" style={{ flexShrink: 0, marginTop: 1 }} />
@@ -265,7 +262,7 @@ const handleConfirmPurchase = async () => {
             {/* Programme */}
             {course.program?.length > 0 && (
               <section style={{ marginBottom: 44 }}>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 700, color: '#0A1628', marginBottom: 20 }}>
+                <h2 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(1.3rem, 2.5vw, 1.625rem)', fontWeight: 700, color: '#0376F7', marginBottom: 20 }}>
                   Programme de la formation
                 </h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -288,7 +285,7 @@ const handleConfirmPurchase = async () => {
                           textAlign: 'left',
                         }}
                       >
-                        <span style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 14.5, fontWeight: 600, color: '#0A1628' }}>
+                        <span style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 14.5, fontWeight: 600, color: '#0376F7' }}>
                           <PlayCircle size={18} color="#F97316" />
                           Module {i + 1} — {mod.title}
                         </span>
@@ -317,7 +314,7 @@ const handleConfirmPurchase = async () => {
             {/* Prérequis */}
             {course.prerequisites?.length > 0 && (
               <section>
-                <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 700, color: '#0A1628', marginBottom: 16 }}>
+                <h2 style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(1.3rem, 2.5vw, 1.625rem)', fontWeight: 700, color: '#0376F7', marginBottom: 16 }}>
                   Prérequis
                 </h2>
                 <ul style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingLeft: 0, listStyle: 'none' }}>
@@ -347,7 +344,7 @@ const handleConfirmPurchase = async () => {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 34, fontWeight: 700, color: '#0A1628' }}>
+                <span style={{ fontFamily: "'Manrope', sans-serif", fontSize: 'clamp(1.75rem, 3vw, 2.125rem)', fontWeight: 700, color: '#0376F7' }}>
                   {course.price.toLocaleString()}
                 </span>
                 <span style={{ fontSize: 14, color: '#94A3B8', fontWeight: 500 }}>FCFA</span>
@@ -454,17 +451,17 @@ const handleConfirmPurchase = async () => {
 
             <h2
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: 24,
+                fontFamily: "'Manrope', sans-serif",
+                fontSize: 'clamp(1.25rem, 2.5vw, 1.5rem)',
                 fontWeight: 700,
-                color: '#0A1628',
+                color: '#0376F7',
                 marginBottom: 6,
               }}
             >
               Finaliser l'achat
             </h2>
             <p style={{ fontSize: 13.5, color: '#64748B', marginBottom: 24, lineHeight: 1.6 }}>
-              {course.title} — <strong style={{ color: '#0A1628' }}>{course.price.toLocaleString()} FCFA</strong>
+              {course.title} — <strong style={{ color: '#0376F7' }}>{course.price.toLocaleString()} FCFA</strong>
             </p>
 
             <label style={{ fontSize: 12.5, fontWeight: 600, color: '#334155', display: 'block', marginBottom: 6 }}>
@@ -479,7 +476,7 @@ const handleConfirmPurchase = async () => {
                   borderRadius: 10,
                   padding: '0 10px',
                   fontSize: 13.5,
-                  color: '#0A1628',
+                  color: '#0376F7',
                   background: '#fff',
                   outline: 'none',
                   flexShrink: 0,
@@ -506,7 +503,7 @@ const handleConfirmPurchase = async () => {
                     borderRadius: 10,
                     padding: '11px 12px 11px 36px',
                     fontSize: 14,
-                    color: '#0A1628',
+                    color: '#0376F7',
                     outline: 'none',
                     boxSizing: 'border-box',
                   }}

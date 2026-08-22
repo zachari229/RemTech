@@ -1,30 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence, useScroll } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, LogOut } from 'lucide-react';
 import { useAuthStore } from '../../store/auth.store';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const { scrollY } = useScroll();
   const { isAuthenticated, user, logout } = useAuthStore();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Sur la HomePage, la navbar démarre transparente et devient sombre au scroll
-  const isHome = location.pathname === '/';
-  const isDark = !isHome || scrolled;
-
-  useEffect(() => {
-    const unsub = scrollY.on('change', (v) => setScrolled(v > 50));
-    return unsub;
-  }, [scrollY]);
-
-  // Réinitialiser scrolled quand on change de page
-  useEffect(() => {
-    setScrolled(false);
-  }, [location.pathname]);
+  // Navbar toujours bleue opaque, y compris sur la HomePage
+  const isDark = true;
 
   const handleLogout = () => {
     logout();
@@ -217,7 +204,7 @@ export default function Navbar() {
             style={{
               position: 'fixed',
               top: 0, left: 0, right: 0, bottom: 0,
-              background: 'linear-gradient(160deg, #0376F7 0%, #022E66 100%)',
+              background: 'linear-gradient(160deg, #0376F7 0%, #0257C4 100%)',
               zIndex: 99,
               display: 'flex',
               flexDirection: 'column',
